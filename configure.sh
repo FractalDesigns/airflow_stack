@@ -1,6 +1,6 @@
 export AIRFLOW_HOME=/root/source/repos/gcp-composer-exploitation
 export AIRFLOW_UID=50000
-podman-compose up
+podman-compose up -d
 sleep 5
 podman cp pgpassfile pgadmin:/tmp/pgpassfile
 podman cp servers.json pgadmin:/tmp/servers.json
