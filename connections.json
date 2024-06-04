@@ -1,0 +1,11 @@
+{
+  "CONN_A": "mysql://host_a",
+  "CONN_B": {
+      "conn_type": "scheme",
+      "host": "host",
+      "schema": "schema",
+      "login": "Login",
+      "password": "None",
+      "port": "1234"
+  }
+}

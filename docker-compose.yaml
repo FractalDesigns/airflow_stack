@@ -9,11 +9,15 @@ x-airflow-common:
     - AIRFLOW__CORE__LOAD_EXAMPLES=False
     - AIRFLOW__CORE__LOGGING_LEVEL=INFO
     - _PIP_ADDITIONAL_REQUIREMENTS=${_PIP_ADDITIONAL_REQUIREMENTS:-pytest}
+    
   volumes:
     - ${AIRFLOW_HOME:-.}/dags:/opt/airflow/dags
     - ${AIRFLOW_HOME:-.}/airflow-data/logs:/opt/airflow/logs
     - ${AIRFLOW_HOME:-.}/airflow-data/plugins:/opt/airflow/plugins
     - ${AIRFLOW_HOME:-.}/airflow-data/airflow.cfg:/opt/airlfow/airflow.cfg
+    - ${AIRFLOW_HOME:-.}/connections.json:/opt/airflow/connections.json
+    - ${AIRFLOW_HOME:-.}/variables.json:/opt/airflow/variables.json
+  restart: on-failure
   user: "${AIRFLOW_UID:-50000}:0"
       #user: root
   depends_on:
@@ -53,7 +57,9 @@ services:
           --password airflow
           --email airflow@airflow.com
           --firstname airflow
-          --lastname airflow )
+          --lastname airflow &&
+          airflow variables import -a overwrite /opt/airflow/variables.json &&
+          airflow connections import --overwrite /opt/airflow/connections.json )
     restart: on-failure
 
   airflow-webserver:
